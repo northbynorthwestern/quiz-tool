@@ -25,7 +25,9 @@ class App extends Component {
   }
 
   render() {
+    const { data } = this.state;
     console.log("Updated state: ", this.state);
+
     return (
       <div className="App">
         <header className="App-header">
@@ -38,6 +40,17 @@ class App extends Component {
             Demo Google Spreadsheet
           </a>
         </header>
+
+        <div>
+          <h1>The Quiz</h1>
+          {data.map(row => {
+            return (
+              <div>
+                <p>{row.Question}</p>
+              </div>
+            );
+          })}
+        </div>
       </div>
     );
   }
