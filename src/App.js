@@ -1,26 +1,46 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { Component } from "react";
+import "./App.css";
+import Tabletop from "tabletop";
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+class App extends Component {
+  constructor() {
+    super();
+    this.state = {
+      data: []
+    };
+  }
+
+  componentDidMount() {
+    Tabletop.init({
+      // Paste in the key of your published Google spreadsheet in here
+      key: "1rrBdYaTg9FiTO8I3PJFhZeChD8WZOs7K4zqWfkLXJOY",
+      callback: data => {
+        // Update the app's state with the info from the spreadsheet
+        this.setState({
+          data: data
+        });
+      },
+      simpleSheet: true
+    });
+  }
+
+  render() {
+    console.log("Updated state: ", this.state);
+    return (
+      <div className="App">
+        <header className="App-header">
+          <p>North by Northwestern Sample Quiz</p>
+          <a
+            href="https://docs.google.com/spreadsheets/d/1rrBdYaTg9FiTO8I3PJFhZeChD8WZOs7K4zqWfkLXJOY/edit?usp=sharing"
+            rel="noopener noreferrer"
+            target="_blank"
+          >
+            Demo Google Spreadsheet
+          </a>
+        </header>
+      </div>
+    );
+  }
 }
 
 export default App;
