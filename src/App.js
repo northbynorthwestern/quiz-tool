@@ -32,7 +32,8 @@ class App extends Component {
 
     for (var i = 0; i < num_q; i++) {
       var curr_q = data[i];
-      var new_q = [curr_q["Question"]];
+      var new_q = { Question: curr_q["Question"] };
+      new_q["CorrectAnswer"] = curr_q["CorrectAnswer"];
       var curr_opt = [];
 
       for (var j = 1; j <= num_opt; j++) {
@@ -41,7 +42,8 @@ class App extends Component {
           curr_opt.push(curr_q[opt_name]);
         }
       }
-      new_q.push(curr_opt);
+
+      new_q["Answers"] = curr_opt;
       parsed_data.push(new_q);
     }
 
@@ -74,12 +76,11 @@ class App extends Component {
             i += 1;
             return (
               <div key={i}>
-                <Question question={item[0]} />
+                <Question key={item.Question} question={item.Question} />
 
-                {item[1].map(function(ans, i) {
-                  i += 1;
+                {item.Answers.map(function(ans) {
                   return (
-                    <div key={i}>
+                    <div key={ans}>
                       <AnswerOption answerContent={ans} />
                     </div>
                   );
