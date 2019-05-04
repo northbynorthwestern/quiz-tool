@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import "./App.css";
 import Tabletop from "tabletop";
+import Question from "./Components/Question";
+import AnswerOption from "./Components/AnswerOption";
 
 class App extends Component {
   constructor() {
@@ -68,14 +70,17 @@ class App extends Component {
 
         <div>
           <h1>The Quiz</h1>
-          {data.map(question => {
+          {data.map(function(item, i) {
+            i += 1;
             return (
-              <div>
-                <p>{question[0]}</p>
-                {question[1].map(option => {
+              <div key={i}>
+                <Question question={item[0]} />
+
+                {item[1].map(function(ans, i) {
+                  i += 1;
                   return (
-                    <div>
-                      <p>{option}</p>
+                    <div key={i}>
+                      <AnswerOption answerContent={ans} />
                     </div>
                   );
                 })}
