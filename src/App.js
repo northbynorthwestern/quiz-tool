@@ -7,8 +7,13 @@ import AnswerOption from "./Components/AnswerOption";
 class App extends Component {
   constructor() {
     super();
+
+    // Bind the this context to the handler function
+    this.incrementAns = this.incrementAns.bind(this);
+
     this.state = {
-      data: []
+      data: [],
+      numCorrect: 0
     };
   }
 
@@ -47,15 +52,22 @@ class App extends Component {
       parsed_data.push(new_q);
     }
 
-    // Update the app's state with the info from the spreadsheet
     this.setState({
       data: parsed_data
     });
   };
 
+  incrementAns(e) {
+    this.setState({
+      numCorrect: this.state.numCorrect + 1
+    });
+    console.log("INCREMENTED TO ", this.state.numCorrect);
+  }
+
   render() {
     const { data } = this.state;
     console.log("Updated spreadsheet data: ", data);
+    var func = this.incrementAns;
 
     return (
       <div className="App">
@@ -71,6 +83,7 @@ class App extends Component {
         </header>
 
         <div>
+          <Question blah={this.incrementAns} />
           <h1>The Quiz</h1>
           {data.map(function(item, i) {
             i += 1;
@@ -81,7 +94,11 @@ class App extends Component {
                 {item.Answers.map(function(ans) {
                   return (
                     <div key={ans}>
-                      <AnswerOption answerContent={ans} />
+                      <AnswerOption
+                        answerContent={ans}
+                        incrementAns={func}
+                        correctAns={item.CorrectAnswer}
+                      />
                     </div>
                   );
                 })}
