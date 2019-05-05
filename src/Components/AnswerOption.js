@@ -1,24 +1,51 @@
-import React from "react";
+import React, { Component } from "react";
 import PropTypes from "prop-types";
 import "./QuizStyle.css";
 
-function AnswerOption(props) {
-  console.log("Correct Answer: ", props.correctAns);
+class AnswerOption extends Component {
+  constructor() {
+    super();
 
-  if (props.answerContent === props.correctAns) {
+    this.state = {
+      correctAns: "",
+      message: ""
+    };
+  }
+
+  componentDidMount() {
+    this.setState({
+      correctAns: this.props.correctAns
+    });
+  }
+
+  displayMessage = e => {
+    // This is the function used top display the custom message
+    if (this.props.answerContent === this.props.correctAns) {
+      this.setState({
+        message: this.props.CorrectMessage
+      });
+    } else {
+      this.setState({
+        message: this.props.WrongMessage
+      });
+    }
+  };
+
+  render() {
+    const answerMessage = <div>{this.state.message}</div>;
     return (
       <div>
-        <button className="answerOption" onClick={props.incrementAns}>
-          {props.answerContent}
+        {answerMessage}
+        <button
+          key={this.props.answerContent}
+          className="answerOption"
+          onClick={this.displayMessage}
+        >
+          {this.props.answerContent}
         </button>
       </div>
     );
   }
-  return (
-    <div>
-      <button className="answerOption">{props.answerContent}</button>
-    </div>
-  );
 }
 
 AnswerOption.propTypes = {

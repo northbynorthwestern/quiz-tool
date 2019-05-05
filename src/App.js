@@ -12,8 +12,10 @@ class App extends Component {
     this.incrementAns = this.incrementAns.bind(this);
 
     this.state = {
+      // Only hard-code this at the initial constructor
+      // if doing offline development
       data: [],
-      numCorrect: 0
+      numCorrect: 0 // Keep track of the score of the quiz
     };
   }
 
@@ -31,7 +33,7 @@ class App extends Component {
 
     // The (maximum) number of options available
     // for each quiz question
-    var num_opt = Object.keys(data[0]).length - 2;
+    var num_opt = Object.keys(data[0]).length - 4;
 
     var parsed_data = []; // Reformatted data
 
@@ -49,6 +51,9 @@ class App extends Component {
       }
 
       new_q["Answers"] = curr_opt;
+      console.log("Options: ", new_q.Answers);
+      new_q["CorrectMessage"] = curr_q["CorrectMessage"];
+      new_q["WrongMessage"] = curr_q["WrongMessage"];
       parsed_data.push(new_q);
     }
 
@@ -62,6 +67,11 @@ class App extends Component {
       numCorrect: this.state.numCorrect + 1
     });
     console.log("INCREMENTED TO ", this.state.numCorrect);
+    return (
+      <div>
+        <p>You got the answer correct</p>
+      </div>
+    );
   }
 
   render() {
@@ -98,6 +108,8 @@ class App extends Component {
                         answerContent={ans}
                         incrementAns={func}
                         correctAns={item.CorrectAnswer}
+                        CorrectMessage={item.CorrectMessage}
+                        WrongMessage={item.WrongMessage}
                       />
                     </div>
                   );
